@@ -1,0 +1,25 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGO_URI=mongodb://mongo:27019/test
+    volumes:
+      - ./controller:/app/controller
+      - ./model:/app/model
+      - ./routes:/app/routes
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
